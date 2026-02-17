@@ -469,7 +469,7 @@ class ZvecBackend:
                 zvec.FieldSchema("project_id", zvec.DataType.STRING),
                 zvec.FieldSchema("tier", zvec.DataType.STRING),
                 zvec.FieldSchema("importance", zvec.DataType.INT32),
-                zvec.FieldSchema("created_at", zvec.DataType.FLOAT64),
+                zvec.FieldSchema("created_at", zvec.DataType.DOUBLE),
             ],
             vectors=[
                 zvec.VectorSchema("embedding", zvec.DataType.VECTOR_FP32, self.dim),
