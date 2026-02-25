@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install and validate (minimal profile)
+        run: python scripts/setup_common.py --profile minimal --skip-pip-upgrade --skip-compat
+
+      - name: Run compatibility smoke tests
+        run: python scripts/compatibility_check.py --skip-installed-check
+
+      - name: Compile Python modules
+        run: python -m py_compile zvec-memory/mcp/server.py zvec-memory/mcp/memory_core.py zvec-memory/scripts/memory_cli.py

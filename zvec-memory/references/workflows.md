@@ -5,13 +5,19 @@
 Install dependencies:
 
 ```bash
-python3 -m pip install -r ~/.agents/skills/zvec-memory/mcp/requirements.txt
+python3 -m pip install -r ./zvec-memory/mcp/requirements.txt
+```
+
+Or use the fast profile:
+
+```bash
+python3 -m pip install -r ./zvec-memory/mcp/requirements-minimal.txt
 ```
 
 Run quick health check in CLI mode:
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py health
+python3 ./zvec-memory/scripts/memory_cli.py health
 ```
 
 Expected output includes:
@@ -25,25 +31,25 @@ Expected output includes:
 Store important preference across scopes:
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py remember "Use pnpm for this monorepo" --scope both --tags preference,tooling
+python3 ./zvec-memory/scripts/memory_cli.py remember "Use pnpm for this monorepo" --scope both --tags preference,tooling
 ```
 
 Store ephemeral note as forced summary:
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py remember "Temporary debug notes" --scope project --force-tier summary --tags noise
+python3 ./zvec-memory/scripts/memory_cli.py remember "Temporary debug notes" --scope project --force-tier summary --tags noise
 ```
 
 Query:
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py query "which package manager do we use" --scope both --top-k 5
+python3 ./zvec-memory/scripts/memory_cli.py query "which package manager do we use" --scope both --top-k 5
 ```
 
 ## 3) Inspect Store Health
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py stats
+python3 ./zvec-memory/scripts/memory_cli.py stats
 ```
 
 Use stats to verify:
@@ -57,13 +63,19 @@ Use stats to verify:
 Dry-run first:
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py prune --scope both --max-age-days 90 --min-importance 40
+python3 ./zvec-memory/scripts/memory_cli.py prune --scope both --max-age-days 90 --min-importance 40
 ```
 
 Apply prune when results look correct:
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py prune --scope both --max-age-days 90 --min-importance 40 --apply
+python3 ./zvec-memory/scripts/memory_cli.py prune --scope both --max-age-days 90 --min-importance 40 --apply
+```
+
+Run backward compatibility validation against an installed skill copy:
+
+```bash
+python3 ./scripts/compatibility_check.py
 ```
 
 ## 5) Add MCP Entry Manually

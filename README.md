@@ -20,10 +20,16 @@ Production-ready OpenCode memory extension using zvec + MCP + skill packaging.
 
 ```text
 ZVEC Opencode/
+  .github/
+    workflows/
+      ci.yml
+  .gitignore
   README.md
   MCP_CONFIG.example.jsonc
   WORKLOG.md
   scripts/
+    setup_common.py
+    compatibility_check.py
     setup-macos.sh
     setup-linux.sh
     setup-windows.ps1
@@ -33,6 +39,7 @@ ZVEC Opencode/
       server.py
       memory_core.py
       requirements.txt
+      requirements-minimal.txt
     scripts/
       memory_cli.py
     references/
@@ -64,21 +71,35 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\setup-windows.ps1
 ```
 
-Each script installs dependencies, runs a health check, and prints next-step MCP config instructions.
+Each script installs dependencies, runs health checks, runs backward-compatibility checks against an installed `zvec-memory` (if present), and prints next-step MCP config instructions.
 
-1) Install Python dependencies:
+Optional setup flags (supported by all scripts):
+
+- `--profile minimal` for faster install (`zvec` + `mcp` only)
+- `--skip-pip-upgrade` to skip pip self-upgrade
+- `--skip-health` to skip runtime health check
+- `--skip-compat` to skip installed-skill compatibility validation
+
+Examples:
 
 ```bash
-python3 -m pip install -r "./zvec-memory/mcp/requirements.txt"
+./scripts/setup-macos.sh --profile minimal
+./scripts/setup-linux.sh --profile full
 ```
 
-2) Verify health (CLI mode):
+Manual setup (all platforms):
 
 ```bash
-python3 "./zvec-memory/scripts/memory_cli.py" health
+python3 "./scripts/setup_common.py" --profile full
 ```
 
-3) Add MCP config manually using `MCP_CONFIG.example.jsonc`.
+Run compatibility smoke tests directly:
+
+```bash
+python3 "./scripts/compatibility_check.py"
+```
+
+Add MCP config manually using `MCP_CONFIG.example.jsonc`.
 
 ## Minimal MCP Config
 
@@ -101,5 +122,5 @@ python3 "./zvec-memory/scripts/memory_cli.py" prune --scope both --max-age-days 
 ## Notes for Publishing
 
 - This bundle is designed to be copied as-is.
-- If publishing publicly, replace absolute paths in the MCP example with your repo-relative or install-relative paths.
+- Runtime artifacts are ignored via `.gitignore` (`.memory/`, caches, venvs).
 - Keep dependency versions in `zvec-memory/mcp/requirements.txt` pinned or range-limited as desired.

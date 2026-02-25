@@ -8,6 +8,11 @@ This document defines the interfaces and behavior for the bundled `zvec-memory` 
 - `mcp/memory_core.py`: storage, embedding, scoring, retrieval, pruning logic
 - `scripts/memory_cli.py`: convenience wrapper for CLI mode
 
+Install profiles:
+
+- `mcp/requirements.txt`: full profile (includes local sentence-transformers fallback)
+- `mcp/requirements-minimal.txt`: fast profile (`zvec` + `mcp` only)
+
 ## Memory Scope Model
 
 - `global`: `~/.opencode/memory/global`
@@ -168,6 +173,9 @@ python3 scripts/memory_cli.py stats
 - `ZVEC_OPENROUTER_EMBED_MODEL`: override OR embedding model
 - `ZVEC_LOCAL_EMBED_MODEL`: override local ST model name
 - `ZVEC_FORCE_JSON_BACKEND=1`: disable zvec backend and use JSON backend only
+- `ZVEC_MAX_STORAGE_MB`: max on-disk budget before auto-prune (default `5120`)
+- `ZVEC_MAX_ITEMS`: max item count before auto-prune (default `250000`)
+- `ZVEC_AUTO_PRUNE`: enable/disable auto-prune (`1` enabled, `0` disabled)
 - `OPENCODE_WORKSPACE`: workspace root hint
 - `OPENCODE_PROJECT_ROOT`: workspace root hint fallback
 - `ZVEC_MEMORY_MODE=cli`: run CLI mode instead of MCP mode

@@ -1,5 +1,40 @@
 # Work Log
 
+## 2026-02-25
+
+### Scope
+
+- Hardened repository for GitHub publication and repeatable installs.
+- Added compatibility validation against the currently installed `zvec-memory` MCP server.
+
+### Implemented
+
+1. Installer consolidation
+   - Added shared installer: `scripts/setup_common.py`
+   - Updated wrappers to call shared installer:
+     - `scripts/setup-macos.sh`
+     - `scripts/setup-linux.sh`
+     - `scripts/setup-windows.ps1`
+
+2. Faster install profile
+   - Added `zvec-memory/mcp/requirements-minimal.txt` (`zvec` + `mcp` only)
+   - Kept `zvec-memory/mcp/requirements.txt` as backward-compatible full profile
+
+3. Backward compatibility test harness
+   - Added `scripts/compatibility_check.py`
+   - Validates helper function signatures and CLI smoke schema parity against installed server when available
+
+4. GitHub hardening
+   - Added `.gitignore` for runtime artifacts/caches/venvs
+   - Added CI workflow: `.github/workflows/ci.yml`
+   - Removed tracked cache artifact: `zvec-memory/mcp/__pycache__/memory_core.cpython-311.pyc`
+
+5. Documentation refresh
+   - Updated `README.md` install/testing flow
+   - Updated `zvec-memory/SKILL.md` quick start to use portable relative paths
+   - Updated `zvec-memory/references/workflows.md` commands and compatibility step
+   - Updated `zvec-memory/references/api_reference.md` with install profiles and runtime env vars
+
 ## 2026-02-16
 
 ### Scope

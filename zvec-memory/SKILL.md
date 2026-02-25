@@ -42,21 +42,27 @@ The `.memory` folder is hidden and isolated; it does not affect normal project b
 1) Install dependencies for the bundled server:
 
 ```bash
-python3 -m pip install -r ~/.agents/skills/zvec-memory/mcp/requirements.txt
+python3 -m pip install -r ./mcp/requirements.txt
+```
+
+Fast install profile (optional):
+
+```bash
+python3 -m pip install -r ./mcp/requirements-minimal.txt
 ```
 
 2) Start the MCP server directly (for local validation):
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/mcp/server.py
+python3 ./mcp/server.py
 ```
 
 3) Test via CLI helper:
 
 ```bash
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py remember --text "Use pnpm for this monorepo" --scope both
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py query --text "what package manager do we use" --scope both
-python3 ~/.agents/skills/zvec-memory/scripts/memory_cli.py stats
+python3 ./scripts/memory_cli.py remember --text "Use pnpm for this monorepo" --scope both
+python3 ./scripts/memory_cli.py query --text "what package manager do we use" --scope both
+python3 ./scripts/memory_cli.py stats
 ```
 
 ## OpenRouter + Local Embedding Strategy
