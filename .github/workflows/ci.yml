@@ -5,26 +5,67 @@ on:
   pull_request:
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
+  cross-platform:
+    name: Cross-platform (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.11"
 
-      - name: Install and validate (minimal profile)
-        run: python scripts/setup_common.py --profile minimal --skip-pip-upgrade --skip-compat
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Run compatibility smoke tests
+      - name: Build
+        run: npm run build
+
+      - name: Smoke test launcher
+        run: npm run test:smoke
+
+      - name: Compatibility check
         run: python scripts/compatibility_check.py --skip-installed-check
 
       - name: Compile Python modules
         run: python -m py_compile zvec-memory/mcp/server.py zvec-memory/mcp/memory_core.py zvec-memory/scripts/memory_cli.py
+
+  security:
+    name: Security checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Node audit
+        run: npm run security:node
+
+      - name: Python audit
+        run: npm run security:python

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "opencode-zvec",
+  "version": "0.1.0",
+  "description": "Zero-config zvec memory plugin for OpenCode with automatic MCP bootstrap",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "bin/launch-server.cjs",
+    "zvec-memory/mcp",
+    "zvec-memory/scripts/memory_cli.py",
+    "MCP_CONFIG.example.jsonc",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test:smoke": "node ./bin/launch-server.cjs --healthcheck",
+    "test:compat": "node ./scripts/run-compatibility-check.cjs",
+    "security:node": "npm audit --omit=dev --audit-level=high",
+    "security:python": "node ./scripts/run-python-audit.cjs",
+    "ci": "npm run build && npm run test:smoke && npm run test:compat && npm run security:node && npm run security:python",
+    "prepack": "node ./scripts/cleanup-package.cjs",
+    "prepublishOnly": "npm run ci"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "mcp",
+    "memory",
+    "zvec"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tachyonlabshq/opencode-zvec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tachyonlabshq/opencode-zvec/issues"
+  },
+  "homepage": "https://github.com/tachyonlabshq/opencode-zvec#readme",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.0.0",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.9.2"
+  }
+}

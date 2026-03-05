@@ -1,17 +1,13 @@
 {
-  "mcp": {
-    "zvec-memory": {
-      "type": "local",
-      "command": [
-        "python3",
-        "./zvec-memory/mcp/server.py"
-      ],
-      "enabled": true,
-      "environment": {
-        "ZVEC_MAX_STORAGE_MB": "5120",
-        "ZVEC_AUTO_PRUNE": "1",
-        "ZVEC_MAX_ITEMS": "250000"
-      }
-    }
-  }
+  // Quick install path:
+  "plugin": ["opencode-zvec"]
+
+  // Optional manual MCP override (normally not needed):
+  // "mcp": {
+  //   "zvec-memory": {
+  //     "type": "local",
+  //     "command": ["node", "/absolute/path/to/opencode-zvec/bin/launch-server.cjs"],
+  //     "enabled": true
+  //   }
+  // }
 }
