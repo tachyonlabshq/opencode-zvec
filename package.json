@@ -24,11 +24,12 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
+    "test": "npm run build && npm run test:smoke && npm run test:compat",
     "test:smoke": "node ./bin/launch-server.cjs --healthcheck",
     "test:compat": "node ./scripts/run-compatibility-check.cjs",
-    "security:node": "npm audit --omit=dev --audit-level=high",
+    "security:node": "npm audit --omit=dev --audit-level=low",
     "security:python": "node ./scripts/run-python-audit.cjs",
-    "ci": "npm run build && npm run test:smoke && npm run test:compat && npm run security:node && npm run security:python",
+    "ci": "npm test && npm run security:node && npm run security:python",
     "prepack": "node ./scripts/cleanup-package.cjs",
     "prepublishOnly": "npm run ci"
   },
@@ -42,6 +43,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tachyonlabshq/opencode-zvec.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/tachyonlabshq/opencode-zvec/issues"

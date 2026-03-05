@@ -60,16 +60,25 @@ npm run security:python
 ## Publish to npm
 
 1. Ensure `package.json` version is bumped.
-2. Create and push a semver tag, for example `v0.1.0`.
-3. GitHub Actions will run CI + security checks and publish with provenance.
+2. Run quality + security gates:
+   - `npm test`
+   - `npm audit --audit-level=low`
+   - secret scan with `rg` for keys/tokens/private keys
+   - `npm pack --dry-run`
+3. Ensure npm auth:
+   - `npm whoami`
+   - `npm profile get "two-factor auth"`
+4. Publish:
+   - `npm publish --access public`
+5. Verify:
+   - `npm view opencode-zvec version`
+   - `npm view opencode-zvec dist-tags`
 
 Manual publish:
 
 ```bash
-npm run ci
-npm publish --access public --provenance
+npm test
+npm audit --audit-level=low
+npm pack --dry-run
+npm publish --access public
 ```
-
-## Repository
-
-- GitHub: [tachyonlabshq/opencode-zvec](https://github.com/tachyonlabshq/opencode-zvec)
